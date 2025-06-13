@@ -1,22 +1,32 @@
 import os
+import sys
+import asyncio
 import logging
 from pathlib import Path
+
+logger = logging.getLogger("Bot")
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s"
 )
-logger = logging.getLogger("Bot")
 
 PROJECT_DIR = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 logger.info(f"Рабочая директория: {PROJECT_DIR}")
+
+sys.path.append(str(PROJECT_DIR))
+
+import asyncio
+from telegram import Update
+from telegram.ext import (ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters)
+from sentence_transformers import SentenceTransformer
 
 from config import PDF_PATH, EMBEDDINGS_PATH, CHUNK_SIZE, OVERLAP
 from utils.pdf_parser import extract_text_from_pdf, split_text_into_chunks
 from utils.vectorstore import build_vectorstore, load_vectorstore, retrieve_relevant_chunks
 from utils.rag_pipeline import generate_answer
 
-import os
+
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 if not TELEGRAM_TOKEN:
     raise ValueError("Не найден TELEGRAM_TOKEN. Пожалуйста, проверьте его наличие в файле .env.")
@@ -41,6 +51,14 @@ async def initialize_data():
     else:
         logger.info("Загружаем существующее хранилище...")
         index, chunks, model = load_vectorstore(EMBEDDINGS_PATH)
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Обработчик команды /start
+    """
+    await update.message.reply_text(
+        "Привет! Я Ваш помощник по IBM SPSS. Задайте вопрос, а я найду ответ в документации."
+    )
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global index, chunks, model
