@@ -1,5 +1,6 @@
 import logging
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from hf_api import call_api
 
 logging.basicConfig(
     level=logging.INFO,
@@ -92,17 +93,4 @@ def generate_answer(generator, tokenizer, context: str, question: str) -> str:
 
 Ответ:""".strip()
 
-    try:
-        outputs = generator(prompt, max_new_tokens=1024, num_return_sequences=1)
-        response = outputs[0]["generated_text"].strip()
-
-        response = response.replace("⁇", "").replace("...", "")
-
-        if response.startswith(prompt):
-            response = response[len(prompt):].strip()
-
-        return response or "Не удалось сформировать ответ."
-
-    except Exception as e:
-        logger.error(f"Ошибка при генерации: {e}", exc_info=True)
-        return "Ошибка при обработке запроса."
+    return call_api(prompt)
