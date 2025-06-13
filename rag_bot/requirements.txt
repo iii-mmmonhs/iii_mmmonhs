@@ -4,7 +4,7 @@ faiss-cpu
 transformers
 torch
 requests
-fitz
+pymupdf
 langchain
 tqdm
 numpy
