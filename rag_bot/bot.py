@@ -11,7 +11,7 @@ logger = logging.getLogger("Bot")
 PROJECT_DIR = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 logger.info(f"Рабочая директория: {PROJECT_DIR}")
 
-from config import TELEGRAM_TOKEN, PDF_PATH, EMBEDDINGS_PATH, CHUNK_SIZE, OVERLAP
+from config import PDF_PATH, EMBEDDINGS_PATH, CHUNK_SIZE, OVERLAP
 from utils.pdf_parser import extract_text_from_pdf, split_text_into_chunks
 from utils.vectorstore import build_vectorstore, load_vectorstore, retrieve_relevant_chunks
 from utils.rag_pipeline import generate_answer
