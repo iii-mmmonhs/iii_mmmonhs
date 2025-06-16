@@ -16,6 +16,12 @@ logger.info(f"Рабочая директория: {PROJECT_DIR}")
 
 sys.path.append(str(PROJECT_DIR))
 
+try:
+    import imghdr
+except ImportError:
+    import sys
+    sys.modules['imghdr'] = type(sys)(name='imghdr')
+
 import asyncio
 from telegram import Update
 from telegram.ext import (ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters)
