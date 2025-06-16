@@ -3,10 +3,8 @@ sentence-transformers
 faiss-cpu
 transformers
 torch
-requests
 pymupdf
-langchain
-tqdm
 numpy
-Pillow
+tqdm
 python-dotenv
+langchain
