@@ -27,6 +27,7 @@
 
 
 ##  Структура проекта
+```
 rag-bot/
 ├── app.py                  # Запуск бота через Gradio
 ├── config.py               # Конфигурация (пути, имя модели)
@@ -37,7 +38,7 @@ rag-bot/
 │   └── rag_pipeline.py     # Интеграция RAG
 ├── data/
 │   └── IBM_SPSS_Statistics_Core_System_User_Guide.pdf    # Файл с документацией
-
+```
 
 ## Принцип работы бота
 
